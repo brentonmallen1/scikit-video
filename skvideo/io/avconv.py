@@ -88,15 +88,15 @@ class LibAVReader():
 
         self.inputfps = -1
         if ("-r" in inputdict):
-            self.inputfps = np.int(inputdict["-r"])
+            self.inputfps = int(inputdict["-r"])
         elif "avg_frame_rate" in viddict:
             # check for the slash
             frtxt = viddict["avg_frame_rate"]
             parts = frtxt.split('/') 
             if len(parts) > 1:
-                self.inputfps = np.float(parts[0])/np.float(parts[1])
+                self.inputfps = float(parts[0])/float(parts[1])
             else:
-                self.inputfps = np.float(frtxt)
+                self.inputfps = float(frtxt)
         else:
             # simply default to a common 25 fps and warn
             self.inputfps = 25
@@ -105,11 +105,11 @@ class LibAVReader():
         # if we don't have width or height at all, raise exception
         if ("-s" in inputdict):
             widthheight = inputdict["-s"].split('x')
-            self.inputwidth = np.int(widthheight[0])
-            self.inputheight = np.int(widthheight[1])
+            self.inputwidth = int(widthheight[0])
+            self.inputheight = int(widthheight[1])
         elif (("width" in viddict) and ("height" in viddict)):
-            self.inputwidth = np.int(viddict["width"])
-            self.inputheight = np.int(viddict["height"])
+            self.inputwidth = int(viddict["width"])
+            self.inputheight = int(viddict["height"])
         else:
             raise ValueError("No way to determine width or height from video. Need `-s` in `inputdict`. Consult documentation on I/O.")
 
@@ -126,19 +126,19 @@ class LibAVReader():
             if verbosity != 0:
                 warnings.warn("No input color space detected. Assuming yuvj444p.", UserWarning)
 
-        self.inputdepth = np.int(bpplut[self.pix_fmt][0])
-        self.bpp = np.int(bpplut[self.pix_fmt][1])
+        self.inputdepth = int(bpplut[self.pix_fmt][0])
+        self.bpp = int(bpplut[self.pix_fmt][1])
 
         if (self.extension == ".yuv"):
             israw = 1
 
         if ("-vframes" in outputdict):
-            self.inputframenum = np.int(outputdict["-vframes"])
+            self.inputframenum = int(outputdict["-vframes"])
         elif ("nb_frames" in viddict):
-            self.inputframenum = np.int(viddict["nb_frames"])
+            self.inputframenum = int(viddict["nb_frames"])
         elif israw == 1:
             # we can compute it based on the input size and color space
-            self.inputframenum = np.int(self.size / (self.inputwidth * self.inputheight * (self.bpp/8.0)))
+            self.inputframenum = int(self.size / (self.inputwidth * self.inputheight * (self.bpp/8.0)))
         else:
             self.inputframenum = -1
             if verbosity != 0:
@@ -157,14 +157,14 @@ class LibAVReader():
 
         if '-s' in outputdict:
             widthheight = outputdict["-s"].split('x')
-            self.outputwidth = np.int(widthheight[0])
-            self.outputheight = np.int(widthheight[1])
+            self.outputwidth = int(widthheight[0])
+            self.outputheight = int(widthheight[1])
         else:
             self.outputwidth = self.inputwidth
             self.outputheight = self.inputheight
 
-        self.outputdepth = np.int(bpplut[outputdict['-pix_fmt']][0])
-        self.outputbpp = np.int(bpplut[outputdict['-pix_fmt']][1])
+        self.outputdepth = int(bpplut[outputdict['-pix_fmt']][0])
+        self.outputbpp = int(bpplut[outputdict['-pix_fmt']][1])
 
 
         # Create input args
@@ -182,7 +182,7 @@ class LibAVReader():
             # open process with supplied arguments,
             # grabbing number of frames using ffprobe
             probecmd = [_AVCONV_PATH + "/avprobe"] + ["-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries", "stream=nb_read_frames", "-of", "default=nokey=1:noprint_wrappers=1", self._filename]
-            self.inputframenum = np.int(check_output(probecmd).split('\n')[0])
+            self.inputframenum = int(check_output(probecmd).split('\n')[0])
 
         # Create process
 
@@ -350,8 +350,8 @@ class LibAVWriter():
 
         if ("-s" in self.inputdict):
             widthheight = self.inputdict["-s"].split('x')
-            self.inputwidth = np.int(widthheight[0])
-            self.inputheight = np.int(widthheight[1])
+            self.inputwidth = int(widthheight[0])
+            self.inputheight = int(widthheight[1])
         else: 
             self.inputdict["-s"] = str(N) + "x" + str(M)
             self.inputwidth = N

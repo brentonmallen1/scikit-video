@@ -131,7 +131,7 @@ def test_vread_raw1_ffmpeg():
 def test_vread_raw1_libav_aboveversion9():
     if not skvideo._HAS_AVCONV:
         return 0
-    if np.int(skvideo._LIBAV_MAJOR_VERSION) < 9:
+    if int(skvideo._LIBAV_MAJOR_VERSION) < 9:
         return 0
     _rawhelper1("libav")
 
@@ -144,7 +144,7 @@ def test_vread_raw2_libav_aboveversion9():
     # skip if libav not installed or of the proper version
     if not skvideo._HAS_AVCONV:
         return 0
-    if np.int(skvideo._LIBAV_MAJOR_VERSION) < 9:
+    if int(skvideo._LIBAV_MAJOR_VERSION) < 9:
         return 0
 
     _rawhelper2("libav")

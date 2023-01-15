@@ -70,21 +70,21 @@ def ssim(referenceVideoData, distortedVideoData, bitdepth=8):
     avg_window = gauss_window(5, 1.5)
     K_1 = 0.01
     K_2 = 0.03
-    L = np.int(2**bitdepth - 1)
+    L = int(2**bitdepth - 1)
 
     C1 = (K_1 * L)**2
     C2 = (K_2 * L)**2
 
-    mu1 = np.zeros((M, N), dtype=np.float)
-    mu2 = np.zeros((M, N), dtype=np.float)
-    var1 = np.zeros((M, N), dtype=np.float)
-    var2 = np.zeros((M, N), dtype=np.float)
-    var12 = np.zeros((M, N), dtype=np.float)
+    mu1 = np.zeros((M, N), dtype=float)
+    mu2 = np.zeros((M, N), dtype=float)
+    var1 = np.zeros((M, N), dtype=float)
+    var2 = np.zeros((M, N), dtype=float)
+    var12 = np.zeros((M, N), dtype=float)
 
-    scores = np.zeros(T, dtype=np.float)
+    scores = np.zeros(T, dtype=float)
     for t in range(T):
-        referenceFrame = referenceVideoData[t].astype(np.float)
-        distortedFrame = distortedVideoData[t].astype(np.float)
+        referenceFrame = referenceVideoData[t].astype(float)
+        distortedFrame = distortedVideoData[t].astype(float)
         scipy.ndimage.correlate1d(referenceFrame, avg_window, 0, mu1, mode=extend_mode)
         scipy.ndimage.correlate1d(mu1, avg_window, 1, mu1, mode=extend_mode)
         scipy.ndimage.correlate1d(distortedFrame, avg_window, 0, mu2, mode=extend_mode)

@@ -8,7 +8,7 @@ import skvideo.datasets
 
 # gaussian ball
 def gauss(cx, cy, sigma, sz):
-    data = np.zeros((sz, sz, 3), dtype=np.float)
+    data = np.zeros((sz, sz, 3), dtype=float)
     for y in range(-sigma*3, sigma*3+1, 1):
         for x in range(-sigma*3, sigma*3+1, 1):
             magnitude = np.exp(-0.5 * (x**2 + y**2)/(sigma**2))
@@ -32,7 +32,7 @@ def getmockdata():
 def test_ES():
     dat = getmockdata()
     mvec = skvideo.motion.blockMotion(dat, "ES")
-    mvec = mvec.astype(np.float)
+    mvec = mvec.astype(float)
     xmean = np.mean(mvec[:, :, :, 0])
     ymean = np.mean(mvec[:, :, :, 1])
     assert_equal(xmean, 0.31944444444444442)
@@ -42,7 +42,7 @@ def test_ES():
 def test_4SS():
     dat = getmockdata()
     mvec = skvideo.motion.blockMotion(dat, "4SS")
-    mvec = mvec.astype(np.float)
+    mvec = mvec.astype(float)
     xmean = np.mean(mvec[:, :, :, 0])
     ymean = np.mean(mvec[:, :, :, 1])
     print(xmean, ymean)
@@ -53,7 +53,7 @@ def test_4SS():
 def test_3SS():
     dat = getmockdata()
     mvec = skvideo.motion.blockMotion(dat, "3SS")
-    mvec = mvec.astype(np.float)
+    mvec = mvec.astype(float)
     xmean = np.mean(mvec[:, :, :, 0])
     ymean = np.mean(mvec[:, :, :, 1])
     assert_equal(xmean, 0.17361111111111111)
@@ -63,7 +63,7 @@ def test_3SS():
 def test_N3SS():
     dat = getmockdata()
     mvec = skvideo.motion.blockMotion(dat, "N3SS")
-    mvec = mvec.astype(np.float)
+    mvec = mvec.astype(float)
     xmean = np.mean(mvec[:, :, :, 0])
     ymean = np.mean(mvec[:, :, :, 1])
 
@@ -74,7 +74,7 @@ def test_N3SS():
 def test_SE3SS():
     dat = getmockdata()
     mvec = skvideo.motion.blockMotion(dat, "SE3SS")
-    mvec = mvec.astype(np.float)
+    mvec = mvec.astype(float)
     xmean = np.mean(mvec[:, :, :, 0])
     ymean = np.mean(mvec[:, :, :, 1])
     assert_equal(xmean, 0.0208333333333333332)
@@ -84,7 +84,7 @@ def test_SE3SS():
 def test_ARPS():
     dat = getmockdata()
     mvec = skvideo.motion.blockMotion(dat, "ARPS")
-    mvec = mvec.astype(np.float)
+    mvec = mvec.astype(float)
     xmean = np.mean(mvec[:, :, :, 0])
     ymean = np.mean(mvec[:, :, :, 1])
     assert_equal(ymean, -0.0069444444444444441)
@@ -94,7 +94,7 @@ def test_ARPS():
 def test_DS():
     dat = getmockdata()
     mvec = skvideo.motion.blockMotion(dat, "DS")
-    mvec = mvec.astype(np.float)
+    mvec = mvec.astype(float)
     xmean = np.mean(mvec[:, :, :, 0])
     ymean = np.mean(mvec[:, :, :, 1])
     assert_equal(ymean, -0.0069444444444444441)

@@ -6,17 +6,17 @@ from ..utils import *
 
 
 def _costMAD(block1, block2):
-    block1 = block1.astype(np.float)
-    block2 = block2.astype(np.float)
+    block1 = block1.astype(float)
+    block2 = block2.astype(float)
     return np.mean(np.abs(block1 - block2))
 
 
 def _minCost(costs):
     h, w = costs.shape
     if costs[h/2, w/2] == 0:
-        return np.int((h-1)/2), np.int((w-1)/2), 0
+        return int((h-1)/2), int((w-1)/2), 0
     idx = np.unravel_index(np.argmin(costs), costs.shape)
-    return np.int(idx[0]), np.int(idx[1]), costs[idx]
+    return int(idx[0]), int(idx[1]), costs[idx]
 
 
 def _checkBounded(xval, yval, w, h, mbSize):
@@ -251,7 +251,7 @@ def _ARPS(imgP, imgI, mbSize, p):
             else:
                 u = vectors[i / mbSize, j / mbSize - 1, 0]
                 v = vectors[i / mbSize, j / mbSize - 1, 1]
-                stepSize = np.int(np.max((np.abs(u), np.abs(v))))
+                stepSize = int(np.max((np.abs(u), np.abs(v))))
 
                 if (((np.abs(u) == stepSize) and (np.abs(v) == 0)) or
                     ((np.abs(v) == stepSize) and (np.abs(u) == 0))):
@@ -366,7 +366,7 @@ def _SE3SS(imgP, imgI, mbSize, p):
     for i in range(0, h - mbSize + 1, mbSize):
         for j in range(0, w - mbSize + 1, mbSize):
 
-            stepSize = np.int(stepMax)
+            stepSize = int(stepMax)
             x = j
             y = i
 
@@ -504,12 +504,12 @@ def _N3SS(imgP, imgI, mbSize, p):
     h, w = imgP.shape
 
     vectors = np.zeros((h / mbSize, w / mbSize, 2))
-    costs = np.ones((3, 3), dtype=np.float)*65537
+    costs = np.ones((3, 3), dtype=float)*65537
 
     computations = 0
 
     L = np.floor(np.log2(p + 1))
-    stepMax = np.int(2**(L - 1))
+    stepMax = int(2**(L - 1))
 
     for i in range(0, h - mbSize + 1, mbSize):
         for j in range(0, w - mbSize + 1, mbSize):
@@ -648,12 +648,12 @@ def _3SS(imgP, imgI, mbSize, p):
     h, w = imgP.shape
 
     vectors = np.zeros((h / mbSize, w / mbSize, 2))
-    costs = np.ones((3, 3), dtype=np.float)*65537
+    costs = np.ones((3, 3), dtype=float)*65537
 
     computations = 0
 
     L = np.floor(np.log2(p + 1))
-    stepMax = np.int(2**(L - 1))
+    stepMax = int(2**(L - 1))
 
     for i in range(0, h - mbSize + 1, mbSize):
         for j in range(0, w - mbSize + 1, mbSize):
@@ -708,7 +708,7 @@ def _4SS(imgP, imgI, mbSize, p):
     h, w = imgP.shape
 
     vectors = np.zeros((h / mbSize, w / mbSize, 2))
-    costs = np.ones((3, 3), dtype=np.float)*65537
+    costs = np.ones((3, 3), dtype=float)*65537
 
     computations = 0
     for i in range(0, h - mbSize + 1, mbSize):
@@ -727,8 +727,8 @@ def _4SS(imgP, imgI, mbSize, p):
                     if not _checkBounded(refBlkHor, refBlkVer, w, h, mbSize):
                         continue
 
-                    costRow = np.int(m/2 + 1)
-                    costCol = np.int(n/2 + 1)
+                    costRow = int(m/2 + 1)
+                    costCol = int(n/2 + 1)
                     if ((costRow == 1) and (costCol == 1)):
                         continue
                     costs[costRow, costCol] = _costMAD(imgP[i:i + mbSize, j:j + mbSize], imgI[refBlkVer:refBlkVer + mbSize, refBlkHor:refBlkHor + mbSize])
@@ -818,8 +818,8 @@ def _4SS(imgP, imgI, mbSize, p):
 def _ES(imgP, imgI, mbSize, p):
     h, w = imgP.shape
 
-    vectors = np.zeros((h / mbSize, w / mbSize, 2), dtype=np.float)
-    costs = np.ones((2 * p + 1, 2 * p + 1), dtype=np.float)*65537
+    vectors = np.zeros((h / mbSize, w / mbSize, 2), dtype=float)
+    costs = np.ones((2 * p + 1, 2 * p + 1), dtype=float)*65537
 
     # we start off from the top left of the image
     # we will walk in steps of mbSize
